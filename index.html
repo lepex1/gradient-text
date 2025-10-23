@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iridescent Text</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0a0a0a;
+      color: white;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 700px;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    textarea {
+      width: 100%;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 1rem;
+      resize: none;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #a855f7;
+    }
+
+    .gradients {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .gradient-btn {
+      border: 2px solid #444;
+      border-radius: 10px;
+      height: 40px;
+      cursor: pointer;
+      transition: transform 0.2s, border 0.2s;
+    }
+
+    .gradient-btn.active {
+      border-color: #a855f7;
+      transform: scale(1.05);
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(90deg, #9333ea, #ec4899);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #7e22ce, #db2777);
+    }
+
+    .output {
+      text-align: center;
+      animation: pulse 2s infinite;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="editor" class="card">
+      <h1 style="text-align:center; margin-bottom: 1rem;">Iridescent Text ✨</h1>
+
+      <label>Your Text</label>
+      <textarea id="textInput" rows="3">Hello World!</textarea>
+
+      <label style="display:block; margin-top:1rem;">Font Size: <span id="fontSizeValue">80</span>px</label>
+      <input id="fontSize" type="range" min="20" max="200" value="80" />
+
+      <label style="display:block; margin-top:1rem;">Gradient Style</label>
+      <div class="gradients" id="gradientList"></div>
+      <p id="gradientName" style="text-align:center; color:#888; margin-top:0.5rem;">rainbow</p>
+
+      <button id="showButton">Show Iridescent Text ✨</button>
+    </div>
+
+    <div id="display" class="hidden">
+      <button id="backButton" style="margin-bottom:1rem;">← Back to Editor</button>
+      <div class="output">
+        <h1 id="outputText"></h1>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const gradients = {
+      rainbow: 'linear-gradient(90deg, #ff0080, #ff8c00, #40e0d0, #4169e1, #9370db)',
+      sunset: 'linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3)',
+      ocean: 'linear-gradient(90deg, #00d2ff, #3a7bd5, #00d2ff)',
+      fire: 'linear-gradient(90deg, #f12711, #f5af19, #f12711)',
+      purple: 'linear-gradient(90deg, #667eea, #764ba2, #f093fb)',
+      neon: 'linear-gradient(90deg, #00f260, #0575e6, #ff00cc)',
+      gold: 'linear-gradient(90deg, #ffd700, #ffed4e, #ffaf00, #ffd700)',
+      cosmic: 'linear-gradient(90deg, #8e2de2, #4a00e0, #ff00cc, #333399)',
+    };
+
+    const gradientList = document.getElementById('gradientList');
+    const gradientName = document.getElementById('gradientName');
+    const fontSize = document.getElementById('fontSize');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+    const textInput = document.getElementById('textInput');
+    const showButton = document.getElementById('showButton');
+    const backButton = document.getElementById('backButton');
+    const editor = document.getElementById('editor');
+    const display = document.getElementById('display');
+    const outputText = document.getElementById('outputText');
+
+    let selectedGradient = 'rainbow';
+
+    Object.keys(gradients).forEach((key) => {
+      const btn = document.createElement('div');
+      btn.classList.add('gradient-btn');
+      btn.style.background = gradients[key];
+      if (key === selectedGradient) btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.gradient-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedGradient = key;
+        gradientName.textContent = key;
+      });
+      gradientList.appendChild(btn);
+    });
+
+    fontSize.addEventListener('input', () => {
+      fontSizeValue.textContent = fontSize.value;
+    });
+
+    showButton.addEventListener('click', () => {
+      const size = fontSize.value + 'px';
+      outputText.textContent = textInput.value || 'Type something!';
+      outputText.style.fontSize = size;
+      outputText.style.background = gradients[selectedGradient];
+      outputText.style.backgroundSize = '200% 200%';
+      outputText.style.webkitBackgroundClip = 'text';
+      outputText.style.webkitTextFillColor = 'transparent';
+      outputText.style.animation = 'gradient 6s ease infinite';
+      outputText.style.textShadow = '0 0 60px rgba(255,255,255,0.2)';
+
+      editor.classList.add('hidden');
+      display.classList.remove('hidden');
+    });
+
+    backButton.addEventListener('click', () => {
+      display.classList.add('hidden');
+      editor.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
