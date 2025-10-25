@@ -1,4 +1,4 @@
-# iridescent-text
+# gradient-text
 
 Данный проект - продукт гавна-вайбкодинга.
 Сделал Claude и перенесен в HTML Chat'ом GPT.
