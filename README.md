@@ -1,14 +1,12 @@
-# gradient-text
+# Gradient Text 
 
-Данный проект - продукт гавна-вайбкодинга.
-Сделал Claude и перенесен в HTML Chat'ом GPT.
-Сделан сугубо для личных хотелок и приколов.
-https://gradient-text2.vercel.app/
-💩💩💩💩💩💩💩💩💩💩💩
+<sub><sup>очередной продукт гавна-вайбкодинга. Сделано Claude, перенесено в HTML Чатом ГПТ</sup></sub>
+
+Превращает скучный текст в переливающееся нечто для личных хотелок, красивых скриншотов или просто чтобы было.
+
+![Скрин 1](image1.png)
+![Скрин 2](image2.png)
 
 ---
 
-This project is a product of pure shit-vibe coding.  
-Created by Claude and ported to HTML by ChatGPT.  
-Made purely for personal whims and fun.
-https://gradient-text2.vercel.app/
+# https://gradient-text2.vercel.app/
